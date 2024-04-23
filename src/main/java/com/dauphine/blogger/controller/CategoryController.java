@@ -2,10 +2,14 @@ package com.dauphine.blogger.controller;
 
 import com.dauphine.blogger.models.Category;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/v1/categories")
@@ -25,35 +29,41 @@ public class CategoryController {
     }
 
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Category> getCategoryById(@PathVariable UUID id) {
+        Optional<Category> category = temporaryCategories.stream().filter(c -> c.getUuid().equals(id)).findFirst();
+
+        return category.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @PostMapping
-    public String create(@RequestBody ElementRequest body){
-        //TO DO Later, implement persistance layer
-        //INSERT INTO .....()
-        return "Create new element with title '%s and description '%s'"
-                .formatted(body.getTitle(), body.getDescription());
+    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+        category.setUuid(UUID.randomUUID());
+        temporaryCategories.add(category);
+        return ResponseEntity.status(HttpStatus.CREATED).body(category);
     }
 
-    @PutMapping("/elements/{id}/")
-    public String updage(@PathVariable  Integer id,
-                         @RequestBody ElementRequest body){
-        //TO DO Later, implement persistance layer
-        //UPDATE .....()
-        return "Update element with title '%s and description '%s'"
-                .formatted(body.getTitle(), body.getDescription());
+    @PutMapping("/{id}")
+    public ResponseEntity<Category> updateCategory(@PathVariable UUID id,
+                                                   @RequestBody Category updatedCategory) {
+        Optional<Category> categoryOptional = temporaryCategories.stream().filter(c -> c.getUuid().equals(id)).findFirst();
+        if (categoryOptional.isPresent()) {
+            Category category = categoryOptional.get();
+            category.setName(updatedCategory.getName());
+            return ResponseEntity.ok(category);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @PatchMapping("/elements/{id}/description")
-    public String patch(@PathVariable  Integer id,
-                         @RequestBody String description){
-        //TO DO Later, implement persistance layer
-        //PATHC .....()
-        return "Patch element with title '%s and description '%s'".formatted(id, description);
-    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable UUID id) {
+        boolean isDeleted = temporaryCategories.removeIf(c -> c.getUuid().equals(id));
 
-    @DeleteMapping("/elements/{id}")
-    public String delete(@PathVariable Integer id) {
-        //TO DO Later, implement persistance layer
-        //DELETE .....()
-        return "Patch element with title '%s and description '%s'".formatted(id);
+        if (isDeleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
