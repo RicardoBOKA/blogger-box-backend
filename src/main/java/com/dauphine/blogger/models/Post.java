@@ -1,17 +1,22 @@
 package com.dauphine.blogger.models;
 
-import com.fasterxml.jackson.annotation.JsonTypeId;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
+@Entity
+@Table(name = "post")
 public class Post {
+    @Id
+    @Column(name = "id")
     private UUID uuid;
     private String title;
     private String content;
-    private LocalDateTime crated_date;
+    private LocalDateTime created_date;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
     public Post() {}
@@ -20,7 +25,7 @@ public class Post {
         this.uuid = uuid;
         this.title = title;
         this.content = content;
-        this.crated_date = crated_date;
+        this.created_date = crated_date;
         this.category = category;
     }
 
@@ -49,10 +54,10 @@ public class Post {
     }
 
     public LocalDateTime getCrated_date() {
-        return crated_date;
+        return created_date;
     }
 
-    public void setCrated_date(LocalDateTime crated_date) {
-        this.crated_date = crated_date;
+    public void setCreated_date(LocalDateTime crated_date) {
+        this.created_date = crated_date;
     }
 }
