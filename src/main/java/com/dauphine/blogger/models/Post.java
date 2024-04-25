@@ -12,16 +12,16 @@ public class Post {
     private String content;
     private LocalDateTime crated_date;
 
-    private Category category_Id;
+    private Category category;
 
     public Post() {}
 
-    public Post(UUID uuid, String title, String content, LocalDateTime crated_date, Category category_Id) {
+    public Post(UUID uuid, String title, String content, LocalDateTime crated_date, Category category) {
         this.uuid = uuid;
         this.title = title;
         this.content = content;
         this.crated_date = crated_date;
-        this.category_Id = category_Id;
+        this.category = category;
     }
 
     public UUID getUuid() {
