@@ -1,5 +1,6 @@
 package com.dauphine.blogger.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -53,11 +54,20 @@ public class Post {
         this.content = content;
     }
 
+    @JsonFormat(pattern = "dd-MM-YYYY HH:mm:ss")
     public LocalDateTime getCrated_date() {
         return created_date;
     }
 
     public void setCreated_date(LocalDateTime crated_date) {
         this.created_date = crated_date;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
