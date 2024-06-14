@@ -53,7 +53,6 @@ public class PostController {
     @PostMapping
     public ResponseEntity<Post> postPost(@RequestBody PostRequest postRequest) {
         UUID categoryUuid = postRequest.getCategoryId();
-        System.out.println("UUUUUuuuuIIIIDDDDD2 = "+ categoryUuid);
         if (categoryUuid == null) {
             return ResponseEntity.badRequest().body(new Post());
         }

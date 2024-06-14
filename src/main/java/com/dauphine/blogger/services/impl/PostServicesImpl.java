@@ -42,7 +42,6 @@ public class PostServicesImpl implements PostServices {
 
     @Override
     public Post postPost(String title, String content, UUID categoryUuid) throws CategoryNotFoundByIdException {
-        System.out.println("UUUUUuuuuIIIIDDDDD1 = "+ categoryUuid);
         if (categoryUuid == null) {
             throw new IllegalArgumentException("Category UUID must not be null");
         }
@@ -54,7 +53,7 @@ public class PostServicesImpl implements PostServices {
         newPost.setTitle(title);
         newPost.setContent(content);
         newPost.setCategory(category);
-        newPost.setCreated_date(LocalDateTime.now());
+        newPost.setCreatedDate(LocalDateTime.now());
         repository.save(newPost);
         return newPost;
     }
@@ -68,6 +67,10 @@ public class PostServicesImpl implements PostServices {
             post.setContent(content);
             repository.save(post);
         }
+        //post.setTitle(title);
+        //post.setContent(content);
+        //repository.save(post);
+
         return post;
     }
 

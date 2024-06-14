@@ -14,7 +14,7 @@ public class Post {
     private UUID uuid;
     private String title;
     private String content;
-    private LocalDateTime created_date;
+    private LocalDateTime createdDate;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -22,11 +22,11 @@ public class Post {
 
     public Post() {}
 
-    public Post(UUID uuid, String title, String content, LocalDateTime crated_date, Category category) {
+    public Post(UUID uuid, String title, String content, LocalDateTime createdDate, Category category) {
         this.uuid = uuid;
         this.title = title;
         this.content = content;
-        this.created_date = crated_date;
+        this.createdDate = createdDate;
         this.category = category;
     }
 
@@ -54,13 +54,13 @@ public class Post {
         this.content = content;
     }
 
-    @JsonFormat(pattern = "dd-MM-YYYY HH:mm:ss")
-    public LocalDateTime getCrated_date() {
-        return created_date;
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm:ss")
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreated_date(LocalDateTime crated_date) {
-        this.created_date = crated_date;
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
     public Category getCategory() {
